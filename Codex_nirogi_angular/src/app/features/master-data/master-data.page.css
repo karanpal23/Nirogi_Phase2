@@ -1,0 +1,35 @@
+.forms-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.alert,
+.master-list {
+  margin-block-start: 1rem;
+}
+
+h2,
+p {
+  margin: 0;
+}
+
+.panel__header p {
+  margin-block-start: 0.2rem;
+  color: var(--ink-500);
+}
+
+.table-wrap {
+  overflow: auto;
+}
+
+@media (max-width: 900px) {
+  .forms-grid {
+    grid-template-columns: 1fr;
+  }
+}

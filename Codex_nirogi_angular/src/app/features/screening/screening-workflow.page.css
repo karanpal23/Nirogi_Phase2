@@ -1,0 +1,105 @@
+.workflow-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(22rem, 0.8fr);
+  gap: 1rem;
+}
+
+h2,
+p {
+  margin: 0;
+}
+
+.panel__header p {
+  margin-block-start: 0.2rem;
+  color: var(--ink-500);
+}
+
+.beneficiary-card {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--surface-soft);
+}
+
+.beneficiary-card div {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.beneficiary-card span,
+.beneficiary-card small {
+  color: var(--ink-500);
+  font-size: 0.82rem;
+  font-weight: 680;
+}
+
+.beneficiary-card strong {
+  color: var(--ink-900);
+  font-size: 1.08rem;
+}
+
+.lab-tests {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.lab-tests > span {
+  color: var(--ink-700);
+  font-weight: 720;
+}
+
+.lab-tests div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.lab-tests label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.25rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding-inline: 0.75rem;
+  background: var(--surface-soft);
+  font-weight: 680;
+}
+
+.button-row {
+  grid-column: 1 / -1;
+}
+
+.reference {
+  display: grid;
+  gap: 0.5rem;
+  margin-block-start: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: var(--teal-50);
+}
+
+.reference strong {
+  color: var(--teal-800);
+  font-size: 1.25rem;
+}
+
+.category-panel {
+  margin-block-start: 1rem;
+}
+
+.alert {
+  margin-block: 1rem 0;
+}
+
+@media (max-width: 1050px) {
+  .workflow-grid,
+  .beneficiary-card {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,88 @@
+<app-page-header
+  eyebrow="Screening data"
+  title="Update existing screening record"
+  subtitle="Load by reference ID, review the patient record, then enter edit mode to update category-wise fields."
+/>
+
+<section class="panel">
+  <form class="panel__body lookup" [formGroup]="lookupForm" (ngSubmit)="loadExisting()">
+    <label class="field">
+      <span>Reference ID</span>
+      <input formControlName="referenceId" />
+    </label>
+    <label class="field">
+      <span>Category</span>
+      <select formControlName="category">
+        @for (category of categories; track category.value) {
+          <option [ngValue]="category.value">{{ category.label }} - {{ category.ageGroup }}</option>
+        }
+      </select>
+    </label>
+    <div class="button-row">
+      <button type="submit" class="secondary-button" [disabled]="lookupForm.controls.referenceId.invalid || loading()">
+        {{ loading() ? 'Loading...' : 'Load record' }}
+      </button>
+    </div>
+  </form>
+</section>
+
+@if (message()) {
+  <p class="alert">{{ message() }}</p>
+}
+
+@if (existing(); as record) {
+  <section class="existing panel">
+    <div class="panel__header">
+      <div>
+        <h2>{{ patientName(record) }}</h2>
+        <p>{{ record.referenceId }} - {{ record.category }}</p>
+      </div>
+      <div class="button-row">
+        <app-status-chip [label]="record.category" tone="info" />
+        <button type="button" class="primary-button" (click)="startEdit()">Edit</button>
+      </div>
+    </div>
+
+    <div class="panel__body">
+      <div class="patient-grid">
+        <div>
+          <span>Patient</span>
+          <strong>{{ patientDetail(record) }}</strong>
+        </div>
+        <div>
+          <span>Location</span>
+          <strong>{{ locationDetail(record) }}</strong>
+        </div>
+      </div>
+
+      <div class="existing-grid">
+        @for (section of sectionSummaries(); track section.label) {
+          <article>
+            <h3>{{ section.label }}</h3>
+            <pre>{{ section.value }}</pre>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+@if (editing()) {
+  <section class="panel editor">
+    <div class="panel__header">
+      <div>
+        <h2>{{ lookupForm.controls.category.value }} editable fields</h2>
+        <p>Current saved values are loaded into the category form.</p>
+      </div>
+      <div class="button-row">
+        <button type="button" class="secondary-button" (click)="cancelEdit()">Cancel</button>
+        <button type="button" class="primary-button" [disabled]="lookupForm.invalid || saving()" (click)="save()">
+          {{ saving() ? 'Saving...' : 'Save update' }}
+        </button>
+      </div>
+    </div>
+    <div class="panel__body">
+      <ng-container #categoryHost />
+    </div>
+  </section>
+}

@@ -1,0 +1,70 @@
+<app-page-header
+  eyebrow="Master data"
+  title="Manage master records"
+  subtitle="Keep district, designation, and facility type records small, cached, and reusable across feature modules."
+/>
+
+<section class="forms-grid">
+  <article class="panel">
+    <div class="panel__header"><h2>District</h2></div>
+    <form class="panel__body stack" [formGroup]="districtForm" (ngSubmit)="createDistrict()">
+      <label class="field"><span>Name</span><input formControlName="name" /></label>
+      <button class="primary-button" [disabled]="districtForm.invalid || saving()">Create district</button>
+    </form>
+  </article>
+
+  <article class="panel">
+    <div class="panel__header"><h2>Facility type</h2></div>
+    <form class="panel__body stack" [formGroup]="facilityTypeForm" (ngSubmit)="createFacilityType()">
+      <label class="field"><span>Name</span><input formControlName="name" /></label>
+      <label class="field"><span>Code</span><input formControlName="code" placeholder="PHC" /></label>
+      <button class="primary-button" [disabled]="facilityTypeForm.invalid || saving()">Create facility type</button>
+    </form>
+  </article>
+
+  <article class="panel">
+    <div class="panel__header"><h2>Designation</h2></div>
+    <form class="panel__body stack" [formGroup]="designationForm" (ngSubmit)="createDesignation()">
+      <label class="field"><span>Name</span><input formControlName="name" /></label>
+      <label class="field"><span>Description</span><input formControlName="description" /></label>
+      <button class="primary-button" [disabled]="designationForm.invalid || saving()">Create designation</button>
+    </form>
+  </article>
+</section>
+
+@if (message()) {
+  <p class="alert">{{ message() }}</p>
+}
+
+<section class="panel master-list">
+  <div class="panel__header">
+    <div>
+      <h2>Cached master data</h2>
+      <p>Loaded once and shared through the app.</p>
+    </div>
+  </div>
+  <div class="panel__body table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Records</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Districts</td>
+          <td>{{ join(masterData()?.districts) }}</td>
+        </tr>
+        <tr>
+          <td>Facility types</td>
+          <td>{{ join(masterData()?.facilityTypes) }}</td>
+        </tr>
+        <tr>
+          <td>Designations</td>
+          <td>{{ join(masterData()?.designations) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

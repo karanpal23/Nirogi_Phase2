@@ -1,0 +1,89 @@
+<app-page-header
+  eyebrow="Reports"
+  title="Download beneficiary and cumulative reports"
+  subtitle="Filters are posted to the backend and files are downloaded as blobs with progress indication."
+/>
+
+<section class="panel">
+  <form class="panel__body report-form" [formGroup]="filterForm">
+    <label class="field">
+      <span>District</span>
+      <select formControlName="districtId">
+        <option [ngValue]="null">All permitted districts</option>
+        @for (district of masterData()?.districts ?? []; track district.id) {
+          <option [ngValue]="district.id">{{ district.name }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Facility</span>
+      <select formControlName="facilityId">
+        <option [ngValue]="null">All facilities</option>
+        @for (facility of facilities(); track facility.id) {
+          <option [ngValue]="facility.id">{{ facility.name }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Category</span>
+      <select formControlName="category">
+        <option [ngValue]="null">All categories</option>
+        @for (category of categories; track category.value) {
+          <option [ngValue]="category.value">{{ category.label }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Status</span>
+      <select formControlName="status">
+        <option [ngValue]="null">All statuses</option>
+        @for (status of statuses; track status) {
+          <option [ngValue]="status">{{ status }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="field">
+      <span>From date</span>
+      <input type="date" formControlName="fromDate" />
+    </label>
+
+    <label class="field">
+      <span>To date</span>
+      <input type="date" formControlName="toDate" />
+    </label>
+
+    <label class="field">
+      <span>Diagnosis</span>
+      <input formControlName="diagnosis" placeholder="DIABETES_MELLITUS" />
+    </label>
+  </form>
+
+  <div class="panel__body downloads">
+    @if (downloading()) {
+      <mat-progress-bar mode="determinate" [value]="progress()" />
+    }
+
+    <div class="button-row">
+      <button type="button" class="primary-button" [disabled]="downloading()" (click)="download('beneficiary', 'csv')">
+        Beneficiary CSV
+      </button>
+      <button type="button" class="primary-button" [disabled]="downloading()" (click)="download('beneficiary', 'excel')">
+        Beneficiary Excel
+      </button>
+      <button type="button" class="secondary-button" [disabled]="downloading()" (click)="download('cumulative', 'csv')">
+        Cumulative CSV
+      </button>
+      <button type="button" class="secondary-button" [disabled]="downloading()" (click)="download('cumulative', 'excel')">
+        Cumulative Excel
+      </button>
+    </div>
+
+    @if (message()) {
+      <p class="alert">{{ message() }}</p>
+    }
+  </div>
+</section>

@@ -1,0 +1,108 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+  background:
+    linear-gradient(120deg, rgb(13 116 103 / 0.92), rgb(22 78 99 / 0.86)),
+    url('/favicon.ico');
+  background-size: cover;
+}
+
+.login-page {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: 1rem;
+}
+
+.login-panel {
+  width: min(100%, 28rem);
+  padding: 1.25rem;
+  border: 1px solid rgb(255 255 255 / 0.35);
+  border-radius: 0.5rem;
+  background: rgb(255 255 255 / 0.96);
+  box-shadow: 0 1.5rem 4rem rgb(8 47 73 / 0.28);
+}
+
+.brand {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-block-end: 1.5rem;
+}
+
+.brand > span {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 0.5rem;
+  color: #ffffff;
+  background: var(--teal-700);
+  font-weight: 850;
+}
+
+.brand strong,
+h1 {
+  color: var(--ink-900);
+}
+
+.brand p,
+.hint {
+  margin: 0;
+  color: var(--ink-500);
+}
+
+form {
+  display: grid;
+  gap: 1rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: 0;
+}
+
+label {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--ink-700);
+  font-weight: 720;
+}
+
+input {
+  min-height: 2.85rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 0.45rem;
+  padding-inline: 0.85rem;
+  font: inherit;
+}
+
+input:focus {
+  outline: 3px solid var(--teal-100);
+  border-color: var(--teal-600);
+}
+
+button {
+  min-height: 2.9rem;
+  border: 0;
+  border-radius: 0.45rem;
+  color: #ffffff;
+  background: var(--teal-700);
+  font: inherit;
+  font-weight: 790;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.alert {
+  border: 1px solid #fecdd3;
+  border-radius: 0.45rem;
+  padding: 0.75rem;
+  color: #9f1239;
+  background: #fff1f2;
+}

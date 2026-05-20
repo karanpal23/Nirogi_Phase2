@@ -1,0 +1,87 @@
+<app-page-header
+  eyebrow="Access control"
+  title="User management"
+  subtitle="Create role-scoped users mapped to district, facility, facility type, and designation master data."
+/>
+
+<section class="panel">
+  <form class="panel__body user-form" [formGroup]="form" (ngSubmit)="create()">
+    <label class="field">
+      <span>Role</span>
+      <select formControlName="role">
+        @for (role of roles; track role) {
+          <option [ngValue]="role">{{ role }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="field"><span>First name</span><input formControlName="firstName" /></label>
+    <label class="field"><span>Last name</span><input formControlName="lastName" /></label>
+    <label class="field"><span>Mobile</span><input formControlName="mobile" /></label>
+    <label class="field"><span>Email</span><input type="email" formControlName="email" /></label>
+
+    <label class="field">
+      <span>Designation</span>
+      <select formControlName="designationId">
+        <option [ngValue]="null">Select designation</option>
+        @for (designation of masterData()?.designations ?? []; track designation.id) {
+          <option [ngValue]="designation.id">{{ designation.name }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="field">
+      <span>District</span>
+      <select formControlName="districtId">
+        <option [ngValue]="null">Select district</option>
+        @for (district of masterData()?.districts ?? []; track district.id) {
+          <option [ngValue]="district.id">{{ district.name }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Facility type</span>
+      <select formControlName="facilityTypeId">
+        <option [ngValue]="null">Select facility type</option>
+        @for (facilityType of masterData()?.facilityTypes ?? []; track facilityType.id) {
+          <option [ngValue]="facilityType.id">{{ facilityType.name }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Facility</span>
+      <select formControlName="facilityId">
+        <option [ngValue]="null">Select facility</option>
+        @for (facility of facilities(); track facility.id) {
+          <option [ngValue]="facility.id">{{ facility.name }}</option>
+        }
+      </select>
+    </label>
+
+    <div class="button-row">
+      <button type="submit" class="primary-button" [disabled]="form.invalid || saving()">
+        {{ saving() ? 'Creating...' : 'Create user' }}
+      </button>
+    </div>
+  </form>
+</section>
+
+@if (created(); as user) {
+  <section class="panel created">
+    <div class="panel__header">
+      <div>
+        <h2>Created user</h2>
+        <p>{{ user.firstName }} {{ user.lastName }} - {{ user.username }}</p>
+      </div>
+      <app-status-chip [label]="user.role" tone="success" />
+    </div>
+    <div class="panel__body button-row">
+      <button type="button" class="danger-button" (click)="disable(user)" [disabled]="disabling()">Disable user</button>
+      @if (message()) {
+        <span class="muted">{{ message() }}</span>
+      }
+    </div>
+  </section>
+}

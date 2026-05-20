@@ -1,0 +1,19 @@
+<form class="category-form" [formGroup]="form">
+  @for (section of definition.sections; track section.sectionName) {
+    <fieldset [formGroupName]="section.sectionName">
+      <legend>{{ section.sectionName }}</legend>
+      <div class="field-grid">
+        @for (field of section.fields; track field) {
+          <label class="field">
+            <span>{{ field }}</span>
+            @if (isLongTextField(section.sectionName, field)) {
+              <textarea [formControlName]="field"></textarea>
+            } @else {
+              <input [formControlName]="field" />
+            }
+          </label>
+        }
+      </div>
+    </fieldset>
+  }
+</form>

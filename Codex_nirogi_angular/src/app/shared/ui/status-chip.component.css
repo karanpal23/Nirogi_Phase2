@@ -1,0 +1,36 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.75rem;
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.76rem;
+  font-weight: 760;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.tone-success {
+  color: #12643a;
+  background: #dcf7e9;
+}
+
+.tone-warning {
+  color: #8a4b00;
+  background: #fff1cc;
+}
+
+.tone-danger {
+  color: #9d1c2d;
+  background: #ffe0e6;
+}
+
+.tone-info {
+  color: #075f86;
+  background: #dff4ff;
+}
+
+.tone-neutral {
+  color: #42526b;
+  background: #edf2f7;
+}

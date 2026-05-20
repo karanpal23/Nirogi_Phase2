@@ -1,0 +1,88 @@
+.lookup {
+  display: grid;
+  grid-template-columns: minmax(14rem, 1fr) minmax(14rem, 1fr) auto;
+  gap: 1rem;
+  align-items: end;
+}
+
+.alert,
+.existing,
+.editor {
+  margin-block-start: 1rem;
+}
+
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+.panel__header p {
+  margin-block-start: 0.2rem;
+  color: var(--ink-500);
+}
+
+.patient-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-block-end: 1rem;
+}
+
+.patient-grid div {
+  display: grid;
+  gap: 0.25rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--surface-soft);
+}
+
+.patient-grid span {
+  color: var(--ink-500);
+  font-size: 0.82rem;
+  font-weight: 720;
+}
+
+.patient-grid strong {
+  color: var(--ink-900);
+}
+
+.existing-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.existing-grid article {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: #ffffff;
+}
+
+.existing-grid h3 {
+  padding: 0.8rem 0.9rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-900);
+  font-size: 0.95rem;
+}
+
+pre {
+  overflow: auto;
+  min-height: 7rem;
+  max-height: 18rem;
+  margin: 0;
+  padding: 0.75rem;
+  color: var(--ink-700);
+  background: #f3f7f9;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 920px) {
+  .lookup,
+  .patient-grid,
+  .existing-grid {
+    grid-template-columns: 1fr;
+  }
+}

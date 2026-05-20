@@ -1,0 +1,8 @@
+<ol class="tracker">
+  @for (item of steps(); track item.status) {
+    <li [class.is-active]="item.active" [class.is-complete]="item.complete">
+      <span></span>
+      <p>{{ item.label }}</p>
+    </li>
+  }
+</ol>

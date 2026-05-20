@@ -1,0 +1,13 @@
+<div class="chart" role="img" [attr.aria-label]="ariaLabel()">
+  @for (item of normalizedData(); track item.label) {
+    <div class="bar-row">
+      <span>{{ item.label }}</span>
+      <div class="bar-track">
+        <i [style.width.%]="item.width"></i>
+      </div>
+      <strong>{{ item.value }}</strong>
+    </div>
+  } @empty {
+    <p class="empty">No aggregate data available yet.</p>
+  }
+</div>

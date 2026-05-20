@@ -1,0 +1,98 @@
+.lab-grid {
+  display: grid;
+  grid-template-columns: minmax(22rem, 0.9fr) minmax(0, 1.25fr);
+  gap: 1rem;
+}
+
+h2,
+p {
+  margin: 0;
+}
+
+.panel__header p {
+  margin-block-start: 0.2rem;
+  color: var(--ink-500);
+}
+
+.queue {
+  height: 34rem;
+}
+
+.queue-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 7rem;
+  padding: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.queue-row strong {
+  color: var(--ink-900);
+}
+
+.queue-row p {
+  margin-block: 0.25rem;
+  color: var(--ink-600);
+}
+
+.queue-row small {
+  color: var(--ink-500);
+}
+
+.empty {
+  padding: 2rem;
+  text-align: center;
+}
+
+.empty.compact {
+  padding: 1rem;
+  border: 1px dashed var(--line-strong);
+  border-radius: 0.5rem;
+  background: var(--surface-soft);
+}
+
+.result-form,
+.result-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.reference-row {
+  display: grid;
+  grid-template-columns: minmax(14rem, 1fr) auto;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+.tests-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.result-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  align-items: end;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--surface-soft);
+}
+
+input[readonly] {
+  color: var(--ink-700);
+  background: #eef3f6;
+  cursor: default;
+}
+
+@media (max-width: 1120px) {
+  .lab-grid,
+  .reference-row,
+  .result-row {
+    grid-template-columns: 1fr;
+  }
+}

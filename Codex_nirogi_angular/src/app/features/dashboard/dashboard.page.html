@@ -1,0 +1,72 @@
+<app-page-header
+  eyebrow="Live operations"
+  title="Healthcare screening dashboard"
+  subtitle="Aggregated district and facility indicators designed for fast scans without loading beneficiary-level records."
+/>
+
+@if (summary(); as data) {
+  <section class="metrics">
+    <app-metric-card label="Total screenings" [value]="data.totalScreenings" helper="Aggregated API only" icon="TS" />
+    <app-metric-card label="Pending lab reports" [value]="data.pendingLabReports" helper="Includes overdue queue" icon="PL" />
+    <app-metric-card label="Completed reports" [value]="data.completedReports" helper="Final lifecycle status" icon="CR" />
+    <app-metric-card label="Program referrals" [value]="data.referrals" helper="National Health Program links" icon="RF" />
+  </section>
+
+  <section class="dashboard-grid">
+    <article class="panel">
+      <div class="panel__header">
+        <div>
+          <h2>Category-wise screenings</h2>
+          <p>Age-band distribution</p>
+        </div>
+      </div>
+      <div class="panel__body">
+        <app-simple-bar-chart [data]="categoryChart()" ariaLabel="Category-wise screenings" />
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="panel__header">
+        <div>
+          <h2>District-wise screenings</h2>
+          <p>Top districts by completed entries</p>
+        </div>
+      </div>
+      <div class="panel__body">
+        <app-simple-bar-chart [data]="districtChart()" ariaLabel="District-wise screenings" />
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="panel__header">
+        <div>
+          <h2>Disease statistics</h2>
+          <p>Diagnosis counts from screening data</p>
+        </div>
+      </div>
+      <div class="panel__body">
+        <app-simple-bar-chart [data]="diseaseChart()" ariaLabel="Disease statistics" />
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="panel__header">
+        <div>
+          <h2>Doctor productivity</h2>
+          <p>Completed vs pending lab workload</p>
+        </div>
+      </div>
+      <div class="panel__body productivity">
+        @for (doctor of data.doctorProductivity; track doctor.doctorName) {
+          <div>
+            <strong>{{ doctor.doctorName }}</strong>
+            <span>{{ doctor.completed }} completed</span>
+            <span>{{ doctor.pendingLab }} pending lab</span>
+          </div>
+        } @empty {
+          <p class="muted">No productivity data available yet.</p>
+        }
+      </div>
+    </article>
+  </section>
+}

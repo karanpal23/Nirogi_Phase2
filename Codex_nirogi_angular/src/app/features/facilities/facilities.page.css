@@ -1,0 +1,42 @@
+.facility-form {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.button-row {
+  grid-column: 1 / -1;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-block-start: 1rem;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.list span {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.35rem 0.65rem;
+  background: var(--surface-soft);
+  font-weight: 680;
+}
+
+@media (max-width: 900px) {
+  .facility-form,
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+}

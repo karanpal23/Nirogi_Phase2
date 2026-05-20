@@ -1,0 +1,72 @@
+<app-page-header
+  eyebrow="Beneficiary master"
+  title="Search by PPP ID"
+  subtitle="Search beneficiary family members by PPP ID. District is optional and can remain blank for broader permitted lookup."
+/>
+
+<section class="panel">
+  <form class="panel__body search-form" [formGroup]="form">
+    <label class="field search-field">
+      <span>PPP ID</span>
+      <input type="search" formControlName="pppId" placeholder="Enter PPP family ID" />
+    </label>
+
+    <label class="field">
+      <span>District</span>
+      <select formControlName="districtId">
+        <option [ngValue]="null">All permitted districts</option>
+        @for (district of masterData()?.districts ?? []; track district.id) {
+          <option [ngValue]="district.id">{{ district.name }}</option>
+        }
+      </select>
+    </label>
+  </form>
+</section>
+
+<section class="panel results-panel">
+  <div class="panel__header">
+    <div>
+      <h2>Results</h2>
+      <p>{{ results().totalElements }} matched records</p>
+    </div>
+    <app-status-chip label="Virtualized" tone="info" />
+  </div>
+
+  @if (results().content.length) {
+    <cdk-virtual-scroll-viewport itemSize="112" class="viewport">
+      <article *cdkVirtualFor="let beneficiary of results().content; trackBy: trackMemberId" class="result-row">
+        <div>
+          <strong>{{ beneficiary.firstName }} {{ beneficiary.lastName }}</strong>
+          <p>
+            {{ beneficiary.memberId }} - PPP {{ beneficiary.pppId }} - {{ beneficiary.gender }} -
+            {{ ageLabel(beneficiary) }}
+          </p>
+          <small>
+            DOB {{ beneficiary.dateOfBirth }} - {{ beneficiary.district }}
+            {{ beneficiary.blockTownCity ? '- ' + beneficiary.blockTownCity : '' }}
+          </small>
+        </div>
+
+        <div class="status-area">
+          <app-status-chip
+            [label]="recentlyScreened(beneficiary) ? 'Screened within 2 years' : categoryLabel(beneficiary)"
+            [tone]="recentlyScreened(beneficiary) ? 'warning' : 'success'"
+          />
+          <button
+            type="button"
+            class="secondary-button"
+            [disabled]="recentlyScreened(beneficiary)"
+            (click)="startScreening(beneficiary)"
+          >
+            Next
+          </button>
+        </div>
+      </article>
+    </cdk-virtual-scroll-viewport>
+  } @else {
+    <div class="empty">
+      <strong>Search to find family members</strong>
+      <p>Enter a PPP ID, optionally narrow by district, then continue with the correct beneficiary record.</p>
+    </div>
+  }
+</section>

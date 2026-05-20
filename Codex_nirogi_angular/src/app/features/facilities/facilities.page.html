@@ -1,0 +1,66 @@
+<app-page-header
+  eyebrow="Facility hierarchy"
+  title="District and facility setup"
+  subtitle="Create facilities under district and facility type master records for scoped access and reporting."
+/>
+
+<section class="panel">
+  <form class="panel__body facility-form" [formGroup]="form" (ngSubmit)="create()">
+    <label class="field"><span>Facility name</span><input formControlName="name" /></label>
+    <label class="field">
+      <span>District</span>
+      <select formControlName="districtId">
+        <option [ngValue]="null">Select district</option>
+        @for (district of masterData()?.districts ?? []; track district.id) {
+          <option [ngValue]="district.id">{{ district.name }}</option>
+        }
+      </select>
+    </label>
+    <label class="field">
+      <span>Facility type</span>
+      <select formControlName="facilityTypeId">
+        <option [ngValue]="null">Select facility type</option>
+        @for (facilityType of masterData()?.facilityTypes ?? []; track facilityType.id) {
+          <option [ngValue]="facilityType.id">{{ facilityType.name }}</option>
+        }
+      </select>
+    </label>
+    <div class="button-row">
+      <button type="submit" class="primary-button" [disabled]="form.invalid || saving()">
+        {{ saving() ? 'Creating...' : 'Create facility' }}
+      </button>
+      @if (message()) {
+        <span class="muted">{{ message() }}</span>
+      }
+    </div>
+  </form>
+</section>
+
+<section class="summary-grid">
+  <article class="panel">
+    <div class="panel__header"><h2>Districts</h2></div>
+    <div class="panel__body list">
+      @for (district of masterData()?.districts ?? []; track district.id) {
+        <span>{{ district.name }}</span>
+      }
+    </div>
+  </article>
+  <article class="panel">
+    <div class="panel__header"><h2>Facility types</h2></div>
+    <div class="panel__body list">
+      @for (facilityType of masterData()?.facilityTypes ?? []; track facilityType.id) {
+        <span>{{ facilityType.name }}</span>
+      }
+    </div>
+  </article>
+  <article class="panel">
+    <div class="panel__header"><h2>Recently created</h2></div>
+    <div class="panel__body list">
+      @for (facility of createdFacilities(); track facility.id) {
+        <span>{{ facility.name }}</span>
+      } @empty {
+        <span class="muted">No facility created in this session.</span>
+      }
+    </div>
+  </article>
+</section>

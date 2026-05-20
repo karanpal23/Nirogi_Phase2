@@ -1,0 +1,29 @@
+.user-form {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.button-row {
+  grid-column: 1 / -1;
+}
+
+.created {
+  margin-block-start: 1rem;
+}
+
+h2,
+p {
+  margin: 0;
+}
+
+.panel__header p {
+  margin-block-start: 0.2rem;
+  color: var(--ink-500);
+}
+
+@media (max-width: 900px) {
+  .user-form {
+    grid-template-columns: 1fr;
+  }
+}

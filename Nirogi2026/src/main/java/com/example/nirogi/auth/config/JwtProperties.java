@@ -1,0 +1,5 @@
+package com.example.nirogi.auth.config;
+
+public class JwtProperties {
+
+}

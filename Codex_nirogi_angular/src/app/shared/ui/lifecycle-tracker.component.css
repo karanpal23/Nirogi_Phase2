@@ -1,0 +1,36 @@
+.tracker {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+li {
+  position: relative;
+  display: grid;
+  gap: 0.45rem;
+  color: var(--ink-500);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+span {
+  height: 0.35rem;
+  border-radius: 999px;
+  background: #dce5ec;
+}
+
+.is-active span,
+.is-complete span {
+  background: var(--teal-600);
+}
+
+.is-active p {
+  color: var(--teal-800);
+}
+
+p {
+  margin: 0;
+}

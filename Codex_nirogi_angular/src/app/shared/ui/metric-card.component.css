@@ -1,0 +1,38 @@
+.metric {
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+  min-height: 8.75rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.metric__icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 2.55rem;
+  width: 2.55rem;
+  height: 2.55rem;
+  border-radius: 0.5rem;
+  color: var(--teal-800);
+  background: var(--teal-100);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+p,
+small {
+  margin: 0;
+  color: var(--ink-500);
+}
+
+strong {
+  display: block;
+  margin: 0.35rem 0;
+  color: var(--ink-900);
+  font-size: 1.85rem;
+  line-height: 1;
+}

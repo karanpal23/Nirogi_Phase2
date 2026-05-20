@@ -1,0 +1,102 @@
+<app-page-header
+  eyebrow="Lab workflow"
+  title="Batch lab result entry"
+  subtitle="Enter a reference ID, fetch ordered lab tests, then submit all report values in one API call."
+/>
+
+<section class="lab-grid">
+  <article class="panel">
+    <div class="panel__header">
+      <div>
+        <h2>Pending lab queue</h2>
+        <p>Virtualized list for large district queues.</p>
+      </div>
+      <app-status-chip [label]="queue().length + ' pending'" tone="warning" />
+    </div>
+
+    @if (queue().length) {
+      <cdk-virtual-scroll-viewport itemSize="112" class="queue">
+        <div *cdkVirtualFor="let item of queue(); trackBy: trackReference" class="queue-row">
+          <div>
+            <strong>{{ item.patientName }}</strong>
+            <p>{{ item.referenceId }} - {{ item.memberId }} - {{ item.category }}</p>
+            <small>Tests: {{ item.tests.join(', ') }}</small>
+          </div>
+          <app-status-chip [label]="item.overdue ? 'OVERDUE' : item.status" [tone]="item.overdue ? 'danger' : 'info'" />
+        </div>
+      </cdk-virtual-scroll-viewport>
+    } @else {
+      <div class="empty">
+        <strong>No pending lab queue loaded</strong>
+        <p class="muted">The UI expects /lab/pending from the backend for live monitoring.</p>
+      </div>
+    }
+  </article>
+
+  <article class="panel">
+    <div class="panel__header">
+      <div>
+        <h2>Submit results</h2>
+        <p>Test rows are generated from the ordered lab tests for the reference ID.</p>
+      </div>
+    </div>
+
+    <form class="panel__body result-form" [formGroup]="form" (ngSubmit)="submit()">
+      <div class="reference-row">
+        <label class="field">
+          <span>Reference ID</span>
+          <input formControlName="referenceId" />
+        </label>
+        <button type="button" class="secondary-button" [disabled]="form.controls.referenceId.invalid || loadingTests()" (click)="loadTests()">
+          {{ loadingTests() ? 'Fetching...' : 'Fetch tests' }}
+        </button>
+      </div>
+
+      @if (loadedTests().length) {
+        <div class="tests-summary">
+          @for (test of loadedTests(); track test.testCode) {
+            <app-status-chip [label]="test.testName ? test.testCode + ' - ' + test.testName : test.testCode" tone="info" />
+          }
+        </div>
+      }
+
+      <div formArrayName="results" class="result-list">
+        @for (group of resultRows.controls; track group; let index = $index) {
+          <div class="result-row" [formGroupName]="index">
+            <label class="field">
+              <span>Test code</span>
+              <input formControlName="testCode" readonly />
+            </label>
+            <label class="field">
+              <span>Result value</span>
+              <input formControlName="resultValue" />
+            </label>
+            <label class="field">
+              <span>Normal range</span>
+              <input formControlName="normalRange" />
+            </label>
+            <label class="field">
+              <span>Remarks</span>
+              <input formControlName="remarks" />
+            </label>
+          </div>
+        } @empty {
+          <div class="empty compact">
+            <strong>No test rows yet</strong>
+            <p class="muted">Enter a reference ID and fetch tests to generate result fields.</p>
+          </div>
+        }
+      </div>
+
+      @if (message()) {
+        <p class="alert">{{ message() }}</p>
+      }
+
+      <div class="button-row">
+        <button type="submit" class="primary-button" [disabled]="form.invalid || !resultRows.length || saving()">
+          {{ saving() ? 'Submitting...' : 'Submit batch results' }}
+        </button>
+      </div>
+    </form>
+  </article>
+</section>

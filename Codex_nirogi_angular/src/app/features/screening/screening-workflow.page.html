@@ -1,0 +1,123 @@
+<app-page-header
+  eyebrow="Doctor workflow"
+  title="Initial screening"
+  subtitle="Create one screening record, attach selected lab tests, and persist only the active category form sections."
+/>
+
+<section class="workflow-grid">
+  <article class="panel">
+    <div class="panel__header">
+      <div>
+        <h2>Beneficiary and screening details</h2>
+        <p>Beneficiary name, age, and category come from the selected PPP record and cannot be edited here.</p>
+      </div>
+    </div>
+    <form class="panel__body grid-2" [formGroup]="form" (ngSubmit)="createScreening()">
+      <div class="beneficiary-card">
+        <div>
+          <span>Beneficiary</span>
+          <strong>{{ beneficiaryName }}</strong>
+          <small>{{ form.controls.memberId.value || 'No member ID selected' }}</small>
+        </div>
+        <div>
+          <span>Age</span>
+          <strong>{{ ageLabel }}</strong>
+          <small>DOB {{ dateOfBirth || 'Not available' }}</small>
+        </div>
+        <div>
+          <span>Category</span>
+          <strong>{{ form.controls.category.value }}</strong>
+          <small>Calculated from date of birth</small>
+        </div>
+      </div>
+
+      <label class="field">
+        <span>District</span>
+        <select formControlName="districtId">
+          <option [ngValue]="null">Select district</option>
+          @for (district of masterData()?.districts ?? []; track district.id) {
+            <option [ngValue]="district.id">{{ district.name }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="field">
+        <span>Facility</span>
+        <select formControlName="facilityId">
+          <option [ngValue]="null">Select facility</option>
+          @for (facility of facilities(); track facility.id) {
+            <option [ngValue]="facility.id">{{ facility.name }}</option>
+          }
+        </select>
+      </label>
+
+      <div class="lab-tests">
+        <span>Investigations</span>
+        <div>
+          @for (test of labTests; track test) {
+            <label>
+              <input type="checkbox" [checked]="selectedTests().has(test)" (change)="toggleTest(test)" />
+              {{ test }}
+            </label>
+          }
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button type="submit" class="primary-button" [disabled]="form.invalid || saving()">
+          {{ saving() ? 'Creating...' : 'Create screening' }}
+        </button>
+        @if (response(); as created) {
+          <app-status-chip [label]="created.referenceId" tone="info" />
+        }
+      </div>
+    </form>
+  </article>
+
+  <article class="panel lifecycle">
+    <div class="panel__header">
+      <div>
+        <h2>Lifecycle</h2>
+        <p>Reference and status update after create/lab actions.</p>
+      </div>
+    </div>
+    <div class="panel__body">
+      <app-lifecycle-tracker [status]="response()?.status ?? 'PENDING'" />
+      @if (response(); as created) {
+        <div class="reference">
+          <strong>{{ created.referenceId }}</strong>
+          <p>{{ created.message }}</p>
+          @if (created.eligibleScheme) {
+            <app-status-chip [label]="created.eligibleScheme" tone="success" />
+          }
+        </div>
+      } @else {
+        <p class="muted">No screening record created in this session yet.</p>
+      }
+    </div>
+  </article>
+</section>
+
+@if (errorMessage()) {
+  <p class="alert" role="alert">{{ errorMessage() }}</p>
+}
+
+<section class="panel category-panel">
+  <div class="panel__header">
+    <div>
+      <h2>{{ form.controls.category.value }} clinical sections</h2>
+      <p>Only this category component is loaded and rendered.</p>
+    </div>
+    <button
+      type="button"
+      class="secondary-button"
+      [disabled]="!response() || sectionSaving()"
+      (click)="saveClinicalSections()"
+    >
+      {{ sectionSaving() ? 'Saving...' : 'Save clinical sections' }}
+    </button>
+  </div>
+  <div class="panel__body">
+    <ng-container #categoryHost />
+  </div>
+</section>
