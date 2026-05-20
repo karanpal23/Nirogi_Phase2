@@ -2,6 +2,7 @@ package com.example.nirogi.auth.security;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,10 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    private final String SECRET = "secretKey123";
+    // FIX BUG 3: Externalize JWT secret from application.properties
+    // Must be at least 256 bits (32 characters) for HS256
+    @Value("${app.jwt.secret:changeme-set-app.jwt.secret-in-properties}")
+    private String SECRET;
 
     @Autowired
     private  UserRepository userRepository;
@@ -61,20 +65,6 @@ public class JwtService {
         return null;
     }
 
-    public User getAuthenticatedUser() {
-
-        Object principal =
-                SecurityContextHolder.getContext()
-                        .getAuthentication()
-                        .getPrincipal();
-
-        if (principal instanceof User) {
-            return (User) principal;
-        }
-
-        return null;
-    }
-    
     public boolean validateToken(String token) {
 
         try {

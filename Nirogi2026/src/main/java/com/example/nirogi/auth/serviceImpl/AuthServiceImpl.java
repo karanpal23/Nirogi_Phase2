@@ -11,6 +11,7 @@ import com.example.nirogi.auth.enums.CookieName;
 import com.example.nirogi.auth.security.JwtService;
 import com.example.nirogi.auth.service.AuthService;
 import com.example.nirogi.auth.service.SessionService;
+import com.example.nirogi.auth.util.SecurityUtil;
 import com.example.nirogi.user.entity.User;
 import com.example.nirogi.user.repository.UserRepository;
 
@@ -96,7 +97,7 @@ public class AuthServiceImpl implements AuthService {
 
         SecurityContextHolder.clearContext();
 
-        Cookie cookie = new Cookie("JWT_TOKEN", null);
+        Cookie cookie = new Cookie(CookieName.JWT_TOKEN.name(), null);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");
@@ -108,7 +109,12 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponseDTO getCurrentUser() {
 
-        User user = jwtService.getAuthenticatedUser();
+        // FIX BUG 1: Use SecurityUtil.getCurrentUserId() instead of jwtService.getAuthenticatedUser()
+        // SecurityUtil correctly handles AuthUserPrincipal, not User entity
+        Long userId = SecurityUtil.getCurrentUserId();
+        
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         return new AuthResponseDTO(
                 user.getUsername(),
